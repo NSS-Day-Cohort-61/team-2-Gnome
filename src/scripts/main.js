@@ -10,17 +10,29 @@
 */
 
 import { GnomeMercy } from "./GnomeMercy.js";
+import { fetchData } from "./dataAccess.js";
 
 const mainContainer = document.querySelector("#container");
 
 const render = () => {
+    
     /*
         Fetch all of the database so that it's stored in 
         application state. After all data is fetched, 
         invoke GnomeMercy component to kick off the conversion
         of state to HTML
     */
-    mainContainer.innerHTML = GnomeMercy();
+    fetchData("crafters")
+    .then(() => fetchData("craftTypes"))
+    .then(() => fetchData("ingredients"))
+    .then(() => fetchData("craftRequests"))
+    .then(() => fetchData("completions"))
+    .then(() => fetchData("craftIngredients"))
+    .then(
+        () => {
+            mainContainer.innerHTML = GnomeMercy();
+        }
+    )
 };
 
 render();
